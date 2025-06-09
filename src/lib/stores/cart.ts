@@ -77,4 +77,4 @@ function createCartStore() {
     };
 }
 
-export const cart = createCartStore();
+export const cart = createCartStore(); 

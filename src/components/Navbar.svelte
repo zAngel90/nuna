@@ -104,9 +104,6 @@
             </div>
 
             <div class="nav-actions">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
                 <button class="cart-btn" on:click={() => showCart = true}>
                     <i class="fas fa-shopping-cart"></i>
                     {#if $cart.length > 0}

@@ -1,17 +1,31 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+    import { API_BASE_URL } from '$lib/config';
+
+    interface Subcategory {
+        name: string;
+        description: string;
+        slug?: string;
+    }
+
+    interface Category {
+        name: string;
+        description: string;
+        image: string;
+        subcategories: Subcategory[];
+    }
 
     let loading = false;
     let error = '';
 
-    let newCategory = {
+    let newCategory: Category = {
         name: '',
         description: '',
         image: '',
         subcategories: []
     };
 
-    let newSubcategory = {
+    let newSubcategory: Subcategory = {
         name: '',
         description: ''
     };
@@ -19,7 +33,7 @@
     async function handleSubmit() {
         loading = true;
         try {
-            const response = await fetch('http://localhost:3000/api/categories', {
+            const response = await fetch(`${API_BASE_URL}/categories`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

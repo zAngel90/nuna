@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { API_BASE_URL } from '$lib/config';
 
     interface Subcategory {
         id: string;
@@ -33,7 +34,7 @@
 
     async function loadCategories() {
         try {
-            const response = await fetch('http://localhost:3000/api/categories');
+            const response = await fetch(`${API_BASE_URL}/categories`);
             if (!response.ok) throw new Error('Error al cargar categorías');
             const data = await response.json();
             categories = data.data;
@@ -49,7 +50,7 @@
         if (!newCategoryName.trim()) return;
 
         try {
-            const response = await fetch('http://localhost:3000/api/categories', {
+            const response = await fetch(`${API_BASE_URL}/categories`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: newCategoryName })
@@ -69,7 +70,7 @@
         if (!selectedCategoryId || !newSubcategoryName.trim()) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/categories/${selectedCategoryId}/subcategories`, {
+            const response = await fetch(`${API_BASE_URL}/categories/${selectedCategoryId}/subcategories`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: newSubcategoryName })
@@ -87,7 +88,7 @@
 
     async function updateCategory(category: Category) {
         try {
-            const response = await fetch(`http://localhost:3000/api/categories/${category.id}`, {
+            const response = await fetch(`${API_BASE_URL}/categories/${category.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: category.name })
@@ -105,7 +106,7 @@
 
     async function updateSubcategory(categoryId: string, subcategory: Subcategory) {
         try {
-            const response = await fetch(`http://localhost:3000/api/categories/${categoryId}/subcategories/${subcategory.id}`, {
+            const response = await fetch(`${API_BASE_URL}/categories/${categoryId}/subcategories/${subcategory.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: subcategory.name })
@@ -125,7 +126,7 @@
         if (!confirm('¿Estás seguro de que deseas eliminar esta categoría?')) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/categories/${categoryId}`, {
+            const response = await fetch(`${API_BASE_URL}/categories/${categoryId}`, {
                 method: 'DELETE'
             });
 
@@ -142,7 +143,7 @@
         if (!confirm('¿Estás seguro de que deseas eliminar esta subcategoría?')) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/categories/${categoryId}/subcategories/${subcategoryId}`, {
+            const response = await fetch(`${API_BASE_URL}/categories/${categoryId}/subcategories/${subcategoryId}`, {
                 method: 'DELETE'
             });
 

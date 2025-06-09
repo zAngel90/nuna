@@ -13,8 +13,8 @@
         --color-gold-primary: #D4AF37;
         --color-gold-light: #FFD700;
         --color-gold-dark: #B8860B;
-        --color-dark: #000000;
-        --color-light: #FFFFFF;
+        --color-cream: #FFF8E7;
+        --color-dark: #2C1810;
         --font-heading: 'Cormorant Garamond', serif;
         --font-body: 'Montserrat', sans-serif;
     }
@@ -23,7 +23,7 @@
         margin: 0;
         padding: 0;
         font-family: var(--font-body);
-        background-color: var(--color-light);
+        background-color: var(--color-cream);
         color: var(--color-dark);
     }
 
@@ -44,37 +44,11 @@
         padding: 0 2rem;
     }
 
-    @media (max-width: 768px) {
-        :global(.container) {
-            padding: 0 1rem;
-        }
-
-        :global(.section-title) {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        main {
-            padding-top: 60px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        :global(.btn) {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.85rem;
-        }
-
-        :global(.section-title) {
-            font-size: 1.8rem;
-        }
-    }
-
     :global(.btn) {
         display: inline-block;
         padding: 0.8rem 1.5rem;
-        background: var(--color-dark);
-        color: var(--color-light);
+        background: var(--color-gold-primary);
+        color: white;
         border: none;
         border-radius: 4px;
         font-family: var(--font-body);
@@ -86,7 +60,7 @@
     }
 
     :global(.btn:hover) {
-        background: #333333;
+        background: var(--color-gold-dark);
         transform: translateY(-2px);
     }
 
@@ -98,7 +72,7 @@
     }
 
     :global(.card) {
-        background: var(--color-light);
+        background: white;
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 15px rgba(0,0,0,0.1);

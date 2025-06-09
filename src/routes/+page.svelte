@@ -32,7 +32,6 @@
                 </div>
             {/each}
         </div>
-        <div class="hero-overlay"></div>
         <div class="slider-controls">
             <button 
                 class="slider-arrow prev"
@@ -96,11 +95,11 @@
             <div class="categories-grid">
                 {#each homeConfig.featuredCategories.sort((a, b) => a.order - b.order) as category}
                     <a href={category.link} class="category-card">
-                        <div class="category-image">
+                    <div class="category-image">
                             <img src={category.image} alt={category.name} />
-                        </div>
+                    </div>
                         <h3>{category.name}</h3>
-                    </a>
+                </a>
                 {/each}
             </div>
         </div>
@@ -120,6 +119,20 @@
     let error = '';
     let showCart = false;
     let homeConfig: {
+        carousel: {
+            image: string;
+            preTitle: string;
+            title: string;
+            description: string;
+            primaryCta?: {
+                text: string;
+                link: string;
+            };
+            secondaryCta?: {
+                text: string;
+                link: string;
+            };
+        }[];
         hero: {
             image: string;
             preTitle: string;
@@ -142,6 +155,7 @@
             order: number;
         }[];
     } = {
+        carousel: [],
         hero: {
             image: '',
             preTitle: '',
@@ -217,14 +231,7 @@
     }
 
     main {
-        background-color: var(--color-cream);
-        background-image: 
-            linear-gradient(45deg, rgba(212, 175, 55, 0.05) 25%, transparent 25%),
-            linear-gradient(-45deg, rgba(212, 175, 55, 0.05) 25%, transparent 25%),
-            linear-gradient(45deg, transparent 75%, rgba(212, 175, 55, 0.05) 75%),
-            linear-gradient(-45deg, transparent 75%, rgba(212, 175, 55, 0.05) 75%);
-        background-size: 20px 20px;
-        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        background-color: transparent;
     }
 
     .hero {
@@ -246,7 +253,10 @@
         height: 100%;
         width: 33.333%;
         position: relative;
-        overflow: hidden;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .slide-image {
@@ -257,70 +267,98 @@
         height: 100%;
         background-size: cover;
         background-position: center;
-        transition: transform 8s ease;
-    }
-
-    .slide:hover .slide-image {
-        transform: scale(1.1);
+        background-repeat: no-repeat;
     }
 
     .slide-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 10%;
         z-index: 2;
-        width: 80%;
+    }
+
+    .content-wrapper {
         max-width: 800px;
-        opacity: 0;
-        animation: fadeInUp 1s forwards;
+        color: white;
     }
 
     .pre-title {
+        font-family: var(--font-body);
         font-size: 1.2rem;
         text-transform: uppercase;
-        letter-spacing: 3px;
+        letter-spacing: 4px;
+        color: var(--color-gold-primary);
         margin-bottom: 1rem;
         display: block;
-        color: var(--color-gold-light);
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
-    h1 {
-        font-size: 4rem;
+    .slide-content h1 {
+        font-size: 5rem;
+        font-family: var(--font-heading);
         margin-bottom: 1.5rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        line-height: 1.2;
+        line-height: 1.1;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
     .slide-content p {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         margin-bottom: 2rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        max-width: 600px;
         line-height: 1.6;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
-    .hero-overlay {
-        display: none;
+    .cta-group {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        font-family: var(--font-body);
+    }
+
+    .cta-button.primary {
+        background: var(--color-dark);
+        color: var(--color-light);
+        border: 2px solid var(--color-dark);
+    }
+
+    .cta-button.primary:hover {
+        background: #333333;
+        border-color: #333333;
+        transform: translateY(-2px);
+    }
+
+    .cta-button.secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+
+    .cta-button.secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
     }
 
     .slider-controls {
         position: absolute;
         bottom: 2rem;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
-        z-index: 2;
-    }
-
-    .slider-dots {
+        left: 50%;
+        transform: translateX(-50%);
         display: flex;
         gap: 1rem;
+        z-index: 10;
     }
 
     .slider-dot {
@@ -330,8 +368,8 @@
         border: 2px solid white;
         background: transparent;
         cursor: pointer;
-        transition: all 0.3s ease;
         padding: 0;
+        transition: all 0.3s ease;
     }
 
     .slider-dot.active {
@@ -358,54 +396,92 @@
         background: var(--color-gold-primary);
     }
 
-    .cta-group {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: 2rem;
-    }
-
-    .cta-button {
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .primary {
-        background-color: var(--color-gold-primary);
-        color: white;
-        border: 2px solid var(--color-gold-primary);
-    }
-
-    .primary:hover {
-        background-color: var(--color-gold-dark);
-        border-color: var(--color-gold-dark);
-        transform: translateY(-2px);
-    }
-
-    .secondary {
-        border: 2px solid white;
-        color: white;
-    }
-
-    .secondary:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translate(-50%, -30%);
+    @media (max-width: 768px) {
+        .slide-content {
+            padding: 0 1.5rem;
+            text-align: center;
         }
-        to {
-            opacity: 1;
-            transform: translate(-50%, -50%);
+
+        .content-wrapper {
+            width: 100%;
+        }
+
+        .slide-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .slide-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-group {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.8rem;
+        }
+
+        .cta-button {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .featured-grid,
+        .categories-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .container {
+            padding: 0 1rem;
+        }
+
+        :root {
+            --section-spacing: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .slide-content h1 {
+            font-size: 2rem;
+        }
+
+        .pre-title {
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .slide-content p {
+            font-size: 1rem;
+        }
+
+        .featured-grid,
+        .categories-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.1rem;
+        }
+
+        .price {
+            font-size: 1rem;
+        }
+
+        .category-card h3 {
+            font-size: 1.2rem;
+        }
+
+        .hero {
+            height: calc(100vh - 60px);
         }
     }
 
@@ -646,24 +722,5 @@
         width: 40px;
         height: 2px;
         background: var(--color-gold-primary);
-    }
-
-    @media (max-width: 768px) {
-        :root {
-            --section-spacing: 4rem;
-        }
-
-        .section-title {
-            font-size: 2rem;
-        }
-
-        .featured-grid,
-        .categories-grid {
-            gap: 1.5rem;
-        }
-
-        .container {
-            padding: 0 1rem;
-        }
     }
 </style>

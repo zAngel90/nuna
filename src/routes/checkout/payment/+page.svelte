@@ -456,18 +456,69 @@
     }
 
     @media (max-width: 768px) {
-        .checkout-page {
+        .checkout-container {
             padding: 1rem;
         }
 
-        .form-grid,
-        .accounts-grid {
+        .payment-section {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .payment-form,
+        .order-summary {
+            padding: 1.5rem;
+        }
+
+        .form-grid {
             grid-template-columns: 1fr;
         }
 
-        .summary-details {
+        .payment-methods {
             flex-direction: column;
-            gap: 0.5rem;
+        }
+
+        .payment-method {
+            width: 100%;
+        }
+
+        .summary-item {
+            padding: 0.8rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .checkout-container {
+            padding: 0.5rem;
+        }
+
+        .payment-form,
+        .order-summary {
+            padding: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.6rem;
+            font-size: 0.9rem;
+        }
+
+        .summary-total {
+            font-size: 1.2rem;
+        }
+
+        .btn-submit {
+            padding: 0.8rem;
+            font-size: 1rem;
         }
     }
 

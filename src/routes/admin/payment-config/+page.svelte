@@ -55,7 +55,7 @@
             });
 
             if (!response.ok) throw new Error('Error al guardar la configuración');
-
+            
             toast.push('Configuración guardada exitosamente', {
                 theme: {
                     '--toastBackground': '#48BB78',

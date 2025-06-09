@@ -281,13 +281,64 @@
     }
 
     @media (max-width: 768px) {
-        .confirmation-page {
+        .confirmation-container {
             padding: 1rem;
+        }
+
+        .confirmation-content {
+            padding: 1.5rem;
+        }
+
+        .success-message {
+            padding: 1.5rem;
+        }
+
+        .success-message i {
+            font-size: 2.5rem;
         }
 
         .details-grid,
         .info-grid {
             grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .confirmation-container {
+            padding: 0.5rem;
+        }
+
+        .confirmation-content {
+            padding: 1rem;
+        }
+
+        .success-message {
+            padding: 1rem;
+        }
+
+        .success-message i {
+            font-size: 2rem;
+        }
+
+        .success-message h2 {
+            font-size: 1.3rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+        }
+
+        .label {
+            font-size: 0.85rem;
+        }
+
+        .value {
+            font-size: 0.95rem;
         }
     }
 </style> 
