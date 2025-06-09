@@ -349,6 +349,8 @@
     @media (max-width: 768px) {
         .menu-toggle {
             display: block;
+            order: 1;
+            margin-right: 0.5rem;
         }
 
         .nav-links {
@@ -388,6 +390,41 @@
 
         .logo-text {
             font-size: 2rem;
+        }
+
+        .navbar-content {
+            justify-content: space-between;
+            padding: 0 1rem;
+            height: 60px;
+        }
+
+        .nav-actions {
+            order: 2;
+            margin-left: 0.5rem;
+        }
+
+        .logo {
+            order: 0;
+            flex: 1;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .navbar-content {
+            padding: 0 0.5rem;
+        }
+
+        .menu-toggle {
+            margin-right: 0.25rem;
+        }
+
+        .nav-actions {
+            margin-left: 0.25rem;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
         }
     }
 </style> 
