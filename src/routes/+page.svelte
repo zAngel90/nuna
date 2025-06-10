@@ -273,6 +273,20 @@
         background-repeat: no-repeat;
     }
 
+    .slide-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.3) 0%,
+            rgba(0,0,0,0.6) 100%
+        );
+    }
+
     .slide-content {
         position: relative;
         width: 100%;
@@ -401,7 +415,7 @@
 
     @media (max-width: 768px) {
         .hero {
-            height: calc(100vh - 60px);
+            height: 80vh;
             margin-left: -1rem;
             margin-right: -1rem;
             width: calc(100% + 2rem);
@@ -410,54 +424,44 @@
         .slide-content {
             padding: 0 1.5rem;
             text-align: center;
-            width: 100%;
+            align-items: center;
+            justify-content: center;
         }
 
         .content-wrapper {
             width: 100%;
             padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .slide-content h1 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .slide-content p {
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
+            max-width: 100%;
+        }
+
+        .pre-title {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
         }
 
         .cta-group {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.8rem;
-        }
-
-        .cta-button {
-            justify-content: center;
             width: 100%;
-        }
-
-        .featured-grid,
-        .categories-grid {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            padding: 0.5rem;
-        }
-
-        .container {
-            padding: 0 1rem;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            max-width: 300px;
         }
     }
 
     @media (max-width: 480px) {
         .hero {
+            height: 70vh;
             margin-left: -0.5rem;
             margin-right: -0.5rem;
             width: calc(100% + 1rem);
@@ -473,33 +477,29 @@
 
         .slide-content h1 {
             font-size: 2rem;
+            margin-bottom: 0.6rem;
         }
 
         .pre-title {
-            font-size: 1rem;
-            letter-spacing: 2px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
         }
 
         .slide-content p {
             font-size: 1rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.4;
         }
 
-        .featured-grid,
-        .categories-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+        .cta-button {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.9rem;
         }
 
-        .card-content h3 {
-            font-size: 1.1rem;
-        }
-
-        .price {
-            font-size: 1rem;
-        }
-
-        .category-card h3 {
-            font-size: 1.2rem;
+        .cta-group {
+            gap: 0.6rem;
+            max-width: 250px;
         }
     }
 
