@@ -355,18 +355,21 @@
 
         .nav-links {
             position: fixed;
-            top: 80px;
-            left: -100%;
+            top: 60px;
+            left: 0;
             width: 100%;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 60px);
             background: white;
             flex-direction: column;
             padding: 2rem;
-            transition: left 0.3s;
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+            margin: 0;
+            z-index: 999;
         }
 
         .nav-links.open {
-            left: 0;
+            transform: translateX(0);
         }
 
         .categories-dropdown {
@@ -425,6 +428,10 @@
 
         .logo-text {
             font-size: 1.8rem;
+        }
+
+        .nav-links {
+            padding: 1rem;
         }
     }
 </style> 

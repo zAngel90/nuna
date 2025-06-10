@@ -25,6 +25,13 @@
         font-family: var(--font-body);
         background-color: var(--color-light);
         color: var(--color-dark);
+        overflow-x: hidden; /* Prevenir scroll horizontal */
+        width: 100%;
+    }
+
+    :global(html) {
+        overflow-x: hidden;
+        width: 100%;
     }
 
     :global(h1, h2, h3, h4, h5, h6) {
@@ -36,6 +43,8 @@
     main {
         padding-top: 80px; /* Espacio para la navbar fija */
         min-height: calc(100vh - 80px);
+        width: 100%;
+        overflow-x: hidden;
     }
 
     :global(.container) {

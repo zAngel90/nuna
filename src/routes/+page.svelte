@@ -239,6 +239,9 @@
         position: relative;
         overflow: hidden;
         margin-bottom: var(--section-spacing);
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
     }
 
     .hero-slider {
@@ -397,13 +400,22 @@
     }
 
     @media (max-width: 768px) {
+        .hero {
+            height: calc(100vh - 60px);
+            margin-left: -1rem;
+            margin-right: -1rem;
+            width: calc(100% + 2rem);
+        }
+
         .slide-content {
             padding: 0 1.5rem;
             text-align: center;
+            width: 100%;
         }
 
         .content-wrapper {
             width: 100%;
+            padding: 0 1rem;
         }
 
         .slide-content h1 {
@@ -438,10 +450,6 @@
             padding: 0 1rem;
         }
 
-        :root {
-            --section-spacing: 4rem;
-        }
-
         .section-title {
             font-size: 2rem;
             margin-bottom: 2rem;
@@ -449,6 +457,20 @@
     }
 
     @media (max-width: 480px) {
+        .hero {
+            margin-left: -0.5rem;
+            margin-right: -0.5rem;
+            width: calc(100% + 1rem);
+        }
+
+        .slide-content {
+            padding: 0 1rem;
+        }
+
+        .content-wrapper {
+            padding: 0 0.5rem;
+        }
+
         .slide-content h1 {
             font-size: 2rem;
         }
@@ -478,10 +500,6 @@
 
         .category-card h3 {
             font-size: 1.2rem;
-        }
-
-        .hero {
-            height: calc(100vh - 60px);
         }
     }
 
