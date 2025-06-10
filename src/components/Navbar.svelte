@@ -64,7 +64,7 @@
                 
                 <div class="categories-menu">
                     <a href="/catalogo" class="nav-link">
-                        Catálogo
+                        Tienda
                         <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="categories-dropdown">
