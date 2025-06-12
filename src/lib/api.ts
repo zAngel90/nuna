@@ -2,6 +2,15 @@ import { API_BASE_URL } from './config';
 
 const API_URL = API_BASE_URL;
 
+// Opciones por defecto para fetch
+const defaultFetchOptions = {
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    mode: 'cors' as RequestMode,
+    credentials: 'include' as RequestCredentials
+};
+
 interface ApiResponse<T> {
     data?: T;
     error?: string;
@@ -17,7 +26,7 @@ interface ApiResponse<T> {
 // Productos
 export async function getProducts(): Promise<ApiResponse<Product[]>> {
     try {
-        const response = await fetch(`${API_URL}/products`);
+        const response = await fetch(`${API_URL}/products`, defaultFetchOptions);
         const result = await response.json();
         return {
             data: result.data,
@@ -30,7 +39,7 @@ export async function getProducts(): Promise<ApiResponse<Product[]>> {
 
 export async function getFeaturedProducts(): Promise<ApiResponse<Product[]>> {
     try {
-        const response = await fetch(`${API_URL}/products/featured`);
+        const response = await fetch(`${API_URL}/products/featured`, defaultFetchOptions);
         const result = await response.json();
         return { data: result.data };
     } catch (error) {
@@ -40,7 +49,7 @@ export async function getFeaturedProducts(): Promise<ApiResponse<Product[]>> {
 
 export async function getProductById(id: string): Promise<ApiResponse<Product>> {
     try {
-        const response = await fetch(`${API_URL}/products/${id}`);
+        const response = await fetch(`${API_URL}/products/${id}`, defaultFetchOptions);
         const result = await response.json();
         return { data: result.data };
     } catch (error) {
@@ -51,10 +60,8 @@ export async function getProductById(id: string): Promise<ApiResponse<Product>> 
 export async function createProduct(product: Omit<Product, 'id'>): Promise<ApiResponse<Product>> {
     try {
         const response = await fetch(`${API_URL}/products`, {
+            ...defaultFetchOptions,
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(product)
         });
         const result = await response.json();
@@ -67,10 +74,8 @@ export async function createProduct(product: Omit<Product, 'id'>): Promise<ApiRe
 export async function updateProduct(id: string, product: Partial<Product>): Promise<ApiResponse<Product>> {
     try {
         const response = await fetch(`${API_URL}/products/${id}`, {
+            ...defaultFetchOptions,
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(product)
         });
         const result = await response.json();
@@ -83,6 +88,7 @@ export async function updateProduct(id: string, product: Partial<Product>): Prom
 export async function deleteProduct(id: string): Promise<ApiResponse<void>> {
     try {
         const response = await fetch(`${API_URL}/products/${id}`, {
+            ...defaultFetchOptions,
             method: 'DELETE'
         });
         const result = await response.json();
@@ -95,7 +101,7 @@ export async function deleteProduct(id: string): Promise<ApiResponse<void>> {
 // Categorías
 export async function getCategories(): Promise<ApiResponse<Category[]>> {
     try {
-        const response = await fetch(`${API_URL}/categories`);
+        const response = await fetch(`${API_URL}/categories`, defaultFetchOptions);
         const result = await response.json();
         return { data: result.data };
     } catch (error) {
@@ -105,7 +111,7 @@ export async function getCategories(): Promise<ApiResponse<Category[]>> {
 
 export async function getCategoryById(id: string): Promise<ApiResponse<Category>> {
     try {
-        const response = await fetch(`${API_URL}/categories/${id}`);
+        const response = await fetch(`${API_URL}/categories/${id}`, defaultFetchOptions);
         const result = await response.json();
         return { data: result.data };
     } catch (error) {
@@ -116,10 +122,8 @@ export async function getCategoryById(id: string): Promise<ApiResponse<Category>
 export async function createCategory(category: Omit<Category, 'id'>): Promise<ApiResponse<Category>> {
     try {
         const response = await fetch(`${API_URL}/categories`, {
+            ...defaultFetchOptions,
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(category)
         });
         const result = await response.json();
@@ -132,10 +136,8 @@ export async function createCategory(category: Omit<Category, 'id'>): Promise<Ap
 export async function updateCategory(id: string, category: Partial<Category>): Promise<ApiResponse<Category>> {
     try {
         const response = await fetch(`${API_URL}/categories/${id}`, {
+            ...defaultFetchOptions,
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(category)
         });
         const result = await response.json();
@@ -148,6 +150,7 @@ export async function updateCategory(id: string, category: Partial<Category>): P
 export async function deleteCategory(id: string): Promise<ApiResponse<void>> {
     try {
         const response = await fetch(`${API_URL}/categories/${id}`, {
+            ...defaultFetchOptions,
             method: 'DELETE'
         });
         const result = await response.json();
@@ -160,10 +163,8 @@ export async function deleteCategory(id: string): Promise<ApiResponse<void>> {
 export async function addSubcategory(categoryId: string, subcategory: Omit<Subcategory, 'id'>): Promise<ApiResponse<Subcategory>> {
     try {
         const response = await fetch(`${API_URL}/categories/${categoryId}/subcategories`, {
+            ...defaultFetchOptions,
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(subcategory)
         });
         const result = await response.json();
