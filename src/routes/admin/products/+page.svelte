@@ -32,6 +32,15 @@
 
     onMount(async () => {
         try {
+            const fetchOptions = {
+                mode: 'cors' as RequestMode,
+                credentials: 'include' as RequestCredentials,
+                cache: 'no-store' as RequestCache,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
             const [productsRes, categoriesRes] = await Promise.all([
                 getProducts(),
                 getCategories()

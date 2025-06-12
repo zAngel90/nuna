@@ -42,11 +42,18 @@
     async function handleSubmit() {
         loading = true;
         try {
-            const response = await fetch(`${API_BASE_URL}/products`, {
-                method: 'POST',
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                method: 'POST'
+            };
+
+            const response = await fetch(`${API_BASE_URL}/products`, {
+                ...fetchOptions,
                 body: JSON.stringify({
                     ...newProduct,
                     price: parseFloat(newProduct.price),

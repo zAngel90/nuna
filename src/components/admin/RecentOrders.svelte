@@ -33,14 +33,21 @@
 
     onMount(async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/orders/recent`);
-            if (!response.ok) {
-                throw new Error('Error al obtener los pedidos');
-            }
-            const { data } = await response.json();
-            recentOrders = data;
+            const fetchOptions: RequestInit = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const response = await fetch(`${API_BASE_URL}/orders/recent`, fetchOptions);
+            if (!response.ok) throw new Error('Error al cargar las órdenes recientes');
+            const data = await response.json();
+            recentOrders = data.orders || [];
         } catch (error) {
-            console.error('Error al cargar órdenes recientes:', error);
+            console.error('Error loading recent orders:', error);
         } finally {
             loading = false;
         }

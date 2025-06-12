@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { API_BASE_URL } from '$lib/config';
+    import { toast } from '@zerodevx/svelte-toast';
 
     interface Subcategory {
         id: string;
@@ -11,8 +12,9 @@
     interface Category {
         id: string;
         name: string;
-        slug: string;
-        subcategories: Subcategory[];
+        description: string;
+        image: string;
+        subcategories: any[];
     }
 
     let categories: Category[] = [];
@@ -29,22 +31,25 @@
     let editingSubcategory: { categoryId: string; subcategory: Subcategory } | null = null;
 
     onMount(async () => {
-        await loadCategories();
-    });
-
-    async function loadCategories() {
         try {
-            const response = await fetch(`${API_BASE_URL}/categories`);
-            if (!response.ok) throw new Error('Error al cargar categorías');
+            const fetchOptions: RequestInit = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const response = await fetch(`${API_BASE_URL}/categories`, fetchOptions);
             const data = await response.json();
-            categories = data.data;
-        } catch (err) {
-            error = 'Error al cargar las categorías';
-            console.error(err);
+            categories = data.data || [];
+        } catch (error) {
+            console.error('Error al cargar categorías:', error);
         } finally {
             loading = false;
         }
-    }
+    });
 
     async function createCategory() {
         if (!newCategoryName.trim()) return;
@@ -88,19 +93,41 @@
 
     async function updateCategory(category: Category) {
         try {
-            const response = await fetch(`${API_BASE_URL}/categories/${category.id}`, {
+            const fetchOptions: RequestInit = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: category.name })
-            });
+                body: JSON.stringify(category)
+            };
 
-            if (!response.ok) throw new Error('Error al actualizar categoría');
+            const response = await fetch(`${API_BASE_URL}/categories/${category.id}`, fetchOptions);
             
-            await loadCategories();
-            editingCategory = null;
-        } catch (err) {
-            console.error('Error:', err);
-            alert('Error al actualizar la categoría');
+            if (response.ok) {
+                const updatedCategory = await response.json();
+                categories = categories.map(cat => 
+                    cat.id === category.id ? updatedCategory : cat
+                );
+                toast.push('Categoría actualizada correctamente', {
+                    theme: {
+                        '--toastBackground': '#48BB78',
+                        '--toastBarBackground': '#2F855A'
+                    }
+                });
+            } else {
+                throw new Error('Error al actualizar la categoría');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            toast.push('Error al actualizar la categoría', {
+                theme: {
+                    '--toastBackground': '#F56565',
+                    '--toastBarBackground': '#C53030'
+                }
+            });
         }
     }
 
@@ -126,16 +153,37 @@
         if (!confirm('¿Estás seguro de que deseas eliminar esta categoría?')) return;
 
         try {
-            const response = await fetch(`${API_BASE_URL}/categories/${categoryId}`, {
+            const fetchOptions: RequestInit = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 method: 'DELETE'
-            });
+            };
 
-            if (!response.ok) throw new Error('Error al eliminar categoría');
+            const response = await fetch(`${API_BASE_URL}/categories/${categoryId}`, fetchOptions);
             
-            await loadCategories();
-        } catch (err) {
-            console.error('Error:', err);
-            alert('Error al eliminar la categoría');
+            if (response.ok) {
+                categories = categories.filter(cat => cat.id !== categoryId);
+                toast.push('Categoría eliminada correctamente', {
+                    theme: {
+                        '--toastBackground': '#48BB78',
+                        '--toastBarBackground': '#2F855A'
+                    }
+                });
+            } else {
+                throw new Error('Error al eliminar la categoría');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            toast.push('Error al eliminar la categoría', {
+                theme: {
+                    '--toastBackground': '#F56565',
+                    '--toastBarBackground': '#C53030'
+                }
+            });
         }
     }
 

@@ -46,7 +46,14 @@
 
     onMount(async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/orders`);
+            const response = await fetch(`${API_BASE_URL}/orders`, {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             if (!response.ok) throw new Error('Error al cargar los pedidos');
             const { data } = await response.json();
             orders = data;

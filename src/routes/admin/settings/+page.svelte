@@ -44,9 +44,16 @@
 
     onMount(async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/config`, {
-                credentials: 'include'
-            });
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const response = await fetch(`${API_BASE_URL}/config`, fetchOptions);
             settings = await response.json();
         } catch (error) {
             console.error('Error loading configuration:', error);
@@ -66,12 +73,18 @@
         message = '';
 
         try {
-            const response = await fetch(`${API_BASE_URL}/config`, {
-                method: 'PUT',
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                credentials: 'include',
+                method: 'PUT'
+            };
+
+            const response = await fetch(`${API_BASE_URL}/config`, {
+                ...fetchOptions,
                 body: JSON.stringify(settings)
             });
 

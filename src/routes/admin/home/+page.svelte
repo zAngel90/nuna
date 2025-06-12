@@ -14,14 +14,23 @@
 
     onMount(async () => {
         try {
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
             // Cargar productos
-            const productsResponse = await fetch(`${API_BASE_URL}/products`);
+            const productsResponse = await fetch(`${API_BASE_URL}/products`, fetchOptions);
             const productsData = await productsResponse.json();
             allProducts = productsData.data || [];
 
             // Cargar configuración del home
             const homeResponse = await fetch(`${API_BASE_URL}/home`, {
-                credentials: 'include'
+                ...fetchOptions
             });
             homeConfig = await homeResponse.json();
 
@@ -49,6 +58,16 @@
     async function saveCarousel() {
         saving = true;
         try {
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'PUT'
+            };
+
             // Preparar los datos para enviar al backend
             const carouselData = homeConfig.carousel.map(slide => ({
                 ...slide,
@@ -57,11 +76,7 @@
             }));
 
             const response = await fetch(`${API_BASE_URL}/home/carousel`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include',
+                ...fetchOptions,
                 body: JSON.stringify({ carousel: carouselData })
             });
 
@@ -89,12 +104,18 @@
     async function saveFeaturedCategories() {
         saving = true;
         try {
-            const response = await fetch(`${API_BASE_URL}/home/featured-categories`, {
-                method: 'PUT',
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                credentials: 'include',
+                method: 'PUT'
+            };
+
+            const response = await fetch(`${API_BASE_URL}/home/featured-categories`, {
+                ...fetchOptions,
                 body: JSON.stringify({ featuredCategories: homeConfig.featuredCategories })
             });
 
@@ -172,12 +193,18 @@
     async function saveFeaturedProducts() {
         saving = true;
         try {
-            const response = await fetch(`${API_BASE_URL}/home/featured-products`, {
-                method: 'PUT',
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                credentials: 'include',
+                method: 'PUT'
+            };
+
+            const response = await fetch(`${API_BASE_URL}/home/featured-products`, {
+                ...fetchOptions,
                 body: JSON.stringify({ featuredProducts: homeConfig.featuredProducts })
             });
 

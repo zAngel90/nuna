@@ -8,7 +8,8 @@ const defaultFetchOptions = {
         'Content-Type': 'application/json'
     },
     mode: 'cors' as RequestMode,
-    credentials: 'include' as RequestCredentials
+    credentials: 'include' as RequestCredentials,
+    cache: 'no-store' as RequestCache
 };
 
 interface ApiResponse<T> {

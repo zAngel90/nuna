@@ -23,7 +23,16 @@
 
     onMount(async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/admin/stats`);
+            const fetchOptions = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const response = await fetch(`${API_BASE_URL}/admin/stats`, fetchOptions);
             const data = await response.json();
             stats = data;
         } catch (error) {

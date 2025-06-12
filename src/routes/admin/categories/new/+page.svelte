@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import { API_BASE_URL } from '$lib/config';
+    import { toast } from '@zerodevx/svelte-toast';
 
     interface Subcategory {
         name: string;
@@ -33,22 +35,40 @@
     async function handleSubmit() {
         loading = true;
         try {
-            const response = await fetch(`${API_BASE_URL}/categories`, {
-                method: 'POST',
+            const fetchOptions: RequestInit = {
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                method: 'POST',
                 body: JSON.stringify(newCategory)
-            });
+            };
+
+            const response = await fetch(`${API_BASE_URL}/categories`, fetchOptions);
 
             if (!response.ok) {
                 throw new Error('Error al crear la categoría');
             }
 
+            toast.push('Categoría creada correctamente', {
+                theme: {
+                    '--toastBackground': '#48BB78',
+                    '--toastBarBackground': '#2F855A'
+                }
+            });
+
             goto('/admin/categories');
         } catch (err) {
             console.error('Error:', err);
             error = 'Error al crear la categoría';
+            toast.push(error, {
+                theme: {
+                    '--toastBackground': '#F56565',
+                    '--toastBarBackground': '#C53030'
+                }
+            });
         } finally {
             loading = false;
         }
@@ -91,17 +111,17 @@
         <div class="form-grid">
             <div class="form-group">
                 <label for="name">Nombre de la Categoría</label>
-                <input type="text" id="name" bind:value={newCategory.name} required>
+                <input type="text" id="name" bind:value={newCategory.name} required placeholder="Nombre de la categoría">
             </div>
 
             <div class="form-group full-width">
                 <label for="description">Descripción</label>
-                <textarea id="description" bind:value={newCategory.description} required></textarea>
+                <textarea id="description" bind:value={newCategory.description} required rows="4" placeholder="Descripción de la categoría"></textarea>
             </div>
 
             <div class="form-group full-width">
                 <label for="image">URL de la imagen</label>
-                <input type="url" id="image" bind:value={newCategory.image} required>
+                <input type="text" id="image" bind:value={newCategory.image} required placeholder="URL de la imagen de la categoría">
             </div>
 
             <div class="form-group full-width">
