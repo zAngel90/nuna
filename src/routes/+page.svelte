@@ -178,8 +178,17 @@
         try {
             // Cargar configuración del home
             const homeResponse = await fetch(`${API_BASE_URL}/home`, {
-                credentials: 'include'
+                mode: 'cors',
+                credentials: 'omit',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                }
             });
+            if (!homeResponse.ok) {
+                throw new Error(`HTTP error! status: ${homeResponse.status}`);
+            }
             homeConfig = await homeResponse.json();
         } catch (error) {
             console.error('Error loading home data:', error);

@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { toast } from '@zerodevx/svelte-toast';
     import { API_BASE_URL } from '$lib/config';
+    import { fetchWithConfig } from '$lib/api';
 
     let loading = true;
     let saving = false;
@@ -14,25 +15,12 @@
 
     onMount(async () => {
         try {
-            const fetchOptions = {
-                mode: 'cors',
-                credentials: 'include',
-                cache: 'no-store',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
             // Cargar productos
-            const productsResponse = await fetch(`${API_BASE_URL}/products`, fetchOptions);
-            const productsData = await productsResponse.json();
+            const productsData = await fetchWithConfig(`${API_BASE_URL}/products`);
             allProducts = productsData.data || [];
 
             // Cargar configuración del home
-            const homeResponse = await fetch(`${API_BASE_URL}/home`, {
-                ...fetchOptions
-            });
-            homeConfig = await homeResponse.json();
+            homeConfig = await fetchWithConfig(`${API_BASE_URL}/home`);
 
             // Asegurarse de que cada slide tenga las propiedades de habilitación de botones
             homeConfig.carousel = homeConfig.carousel.map(slide => ({
@@ -60,7 +48,7 @@
         try {
             const fetchOptions = {
                 mode: 'cors',
-                credentials: 'include',
+                credentials: 'same-origin',
                 cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'
@@ -106,7 +94,7 @@
         try {
             const fetchOptions = {
                 mode: 'cors',
-                credentials: 'include',
+                credentials: 'same-origin',
                 cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'
@@ -195,7 +183,7 @@
         try {
             const fetchOptions = {
                 mode: 'cors',
-                credentials: 'include',
+                credentials: 'same-origin',
                 cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json'

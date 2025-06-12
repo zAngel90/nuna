@@ -3,14 +3,39 @@ import { API_BASE_URL } from './config';
 const API_URL = API_BASE_URL;
 
 // Opciones por defecto para fetch
-const defaultFetchOptions = {
+const defaultFetchOptions: RequestInit = {
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
     },
-    mode: 'cors' as RequestMode,
-    credentials: 'include' as RequestCredentials,
-    cache: 'no-store' as RequestCache
+    mode: 'cors',
+    credentials: 'omit',
+    cache: 'no-store'
 };
+
+// Función helper para hacer peticiones
+export async function fetchWithConfig(url: string, options: RequestInit = {}) {
+    const finalOptions = {
+        ...defaultFetchOptions,
+        ...options,
+        headers: {
+            ...defaultFetchOptions.headers,
+            ...(options.headers || {})
+        }
+    };
+
+    try {
+        const response = await fetch(url, finalOptions);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
 
 interface ApiResponse<T> {
     data?: T;
@@ -23,6 +48,9 @@ interface ApiResponse<T> {
         hasPrevPage: boolean;
     };
 }
+
+// Exportar la configuración por defecto
+export { defaultFetchOptions };
 
 // Productos
 export async function getProducts(): Promise<ApiResponse<Product[]>> {

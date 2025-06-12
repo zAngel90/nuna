@@ -1,8 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { toast } from '@zerodevx/svelte-toast';
-    import Navbar from '../../../components/Navbar.svelte';
     import { API_BASE_URL } from '$lib/config';
+    import { fetchWithConfig } from '$lib/api';
+    import Navbar from '../../../components/Navbar.svelte';
 
     interface StoreSettings {
         storeName: string;
@@ -44,17 +45,7 @@
 
     onMount(async () => {
         try {
-            const fetchOptions = {
-                mode: 'cors',
-                credentials: 'include',
-                cache: 'no-store',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            const response = await fetch(`${API_BASE_URL}/config`, fetchOptions);
-            settings = await response.json();
+            settings = await fetchWithConfig(`${API_BASE_URL}/config`);
         } catch (error) {
             console.error('Error loading configuration:', error);
             toast.push('Error al cargar la configuración', {
@@ -73,31 +64,17 @@
         message = '';
 
         try {
-            const fetchOptions = {
-                mode: 'cors',
-                credentials: 'include',
-                cache: 'no-store',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'PUT'
-            };
-
-            const response = await fetch(`${API_BASE_URL}/config`, {
-                ...fetchOptions,
+            await fetchWithConfig(`${API_BASE_URL}/config`, {
+                method: 'PUT',
                 body: JSON.stringify(settings)
             });
 
-            if (response.ok) {
-                toast.push('Configuración actualizada correctamente', {
-                    theme: {
-                        '--toastBackground': '#48BB78',
-                        '--toastBarBackground': '#2F855A'
-                    }
-                });
-            } else {
-                message = 'Error al guardar la configuración';
-            }
+            toast.push('Configuración actualizada correctamente', {
+                theme: {
+                    '--toastBackground': '#48BB78',
+                    '--toastBarBackground': '#2F855A'
+                }
+            });
         } catch (error) {
             console.error('Error saving configuration:', error);
             toast.push('Error al guardar la configuración', {
